@@ -1,11 +1,16 @@
 package ch.swaechter.jooqexample.application;
 
+import ch.swaechter.jooqexample.application.crud.AccountRepository;
+import ch.swaechter.jooqexample.application.dto.AccountDto;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.FlywayException;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.util.UUID;
 
 public class Application {
 
@@ -27,9 +32,26 @@ public class Application {
         try (Connection connection = dataSource.getConnection()) {
             System.out.println("Connection established: " + connection.getClass().getSimpleName());
 
-            insertAccounts(connection);
-            listAccounts(connection);
-            executeFlywayMigration(dataSource);
+            // Create the DSL context
+            try (DSLContext dslContext = DSL.using(connection)) {
+                // Execute the Flyway migration
+                executeFlywayMigration(dataSource);
+
+                // Create the account repository to access the data
+                AccountRepository accountRepository = new AccountRepository(dslContext);
+
+                // Create two new accounts
+                String[] userNames = new String[]{"Simon", "Lukas"};
+                for (String userName : userNames) {
+                    UUID id = UUID.randomUUID();
+                    accountRepository.saveAccount(new AccountDto(id, userName + "_" + id, userName + "_" + id + "@gmail.com"));
+                }
+
+                // List all accounts (Will accumulate over time)
+                for (AccountDto accountDto : accountRepository.getAccounts()) {
+                    System.out.println("ID: " + accountDto.getId() + " | Username: " + accountDto.getUserName() + " | Email: " + accountDto.getEmailAddress());
+                }
+            }
         } catch (Exception exception) {
             System.err.println("An error occurred: " + exception.getMessage());
         }
@@ -52,11 +74,5 @@ public class Application {
         } catch (FlywayException exception) {
             throw new Exception("Unable to migrate schema with Flyway: " + exception.getMessage(), exception);
         }
-    }
-
-    private static void insertAccounts(Connection connection) {
-    }
-
-    private static void listAccounts(Connection connection) {
     }
 }

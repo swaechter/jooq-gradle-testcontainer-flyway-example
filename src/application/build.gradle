@@ -4,15 +4,15 @@ plugins {
 }
 
 dependencies {
-    // Include the SQL schemas so Flyway can migrate them
+    // Include the SQL schemas and generated jOOQ classes
     implementation project(":database")
-
-    // Include the generator so we can compile the jOOQ classes at compile time
-    jooqGenerator project(":generator")
 
     // SQL driver and Flyway for data migration
     implementation("org.postgresql:postgresql:42.2.18")
     implementation("org.flywaydb:flyway-core:7.3.1")
+
+    // jOOQ dependency itself
+    implementation("org.jooq:jooq:3.14.4")
 }
 
 // Define a fat JAR so we can see what's inside a packaged application
@@ -25,7 +25,7 @@ shadowJar {
 // Make the assembly ("package") task depend on the shadow/fat JAR task so a fat JAR is generated
 assemble.dependsOn(shadowJar)
 
-jooq {
+/*jooq {
     configurations {
         main {
             generationTool {
@@ -60,4 +60,4 @@ tasks.named("generateJooq").configure {
     outputs.cacheIf {
         true
     }
-}
+}*/
