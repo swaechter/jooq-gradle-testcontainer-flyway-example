@@ -1,9 +1,9 @@
-rootProject.name = 'jooq-gradle-testcontainer-flyway-example'
+rootProject.name = "jooq-gradle-testcontainer-flyway-example"
 
-include ':application'
-include ':database'
-//include ':generator'
+include ":application"
+include ":database"
+include ":generator"
 
-project(':application').projectDir = "$rootDir/src/application" as File
-project(':database').projectDir = "$rootDir/src/database" as File
-//project(':generator').projectDir = "$rootDir/src/generator" as File
+project(":application").projectDir = "$rootDir/src/application" as File
+project(":database").projectDir = "$rootDir/src/database" as File
+project(":generator").projectDir = "$rootDir/src/generator" as File

@@ -25,10 +25,10 @@ dependencies {
                 logging = org.jooq.meta.jaxb.Logging.INFO
                 generator {
                     database {
-                        name = 'com.secacon.secasignbox.generator.StandalonePostgreSqlDatabase'
-                        inputSchema = 'public'
-                        includes = '.*'
-                        excludes = ''
+                        name = "com.secacon.secasignbox.generator.StandalonePostgreSqlDatabase"
+                        inputSchema = "public"
+                        includes = ".*"
+                        excludes = ""
                     }
                     generate {
                         records = true
@@ -36,7 +36,7 @@ dependencies {
                         fluentSetters = true
                     }
                     target {
-                        packageName = 'com.secacon.secasignbox.database'
+                        packageName = "com.secacon.secasignbox.database"
                     }
                 }
             }
@@ -44,9 +44,9 @@ dependencies {
     }
 }
 
-tasks.named('generateJooq').configure {
+tasks.named("generateJooq").configure {
     // Declare the migration scripts as input for the jOOQ task (This allows proper build caching)
-    inputs.files(fileTree('src/main/resources/db/migration')).withPropertyName('migrations').withPathSensitivity(PathSensitivity.RELATIVE)
+    inputs.files(fileTree("src/main/resources/db/migration")).withPropertyName("migrations").withPathSensitivity(PathSensitivity.RELATIVE)
 
     // Let the task participate in incremental builds and build caching
     allInputsDeclared = true
