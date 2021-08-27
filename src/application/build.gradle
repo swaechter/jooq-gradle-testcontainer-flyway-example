@@ -8,11 +8,11 @@ dependencies {
     implementation project(":database")
 
     // SQL driver and Flyway for data migration
-    implementation("org.postgresql:postgresql:42.2.18")
-    implementation("org.flywaydb:flyway-core:7.3.1")
+    implementation("org.postgresql:postgresql:42.2.23")
+    implementation("org.flywaydb:flyway-core:7.14.0")
 
     // jOOQ dependency itself
-    implementation("org.jooq:jooq:3.14.4")
+    implementation("org.jooq:jooq:3.15.2")
 }
 
 // Define a fat JAR so we can see what's inside a packaged application

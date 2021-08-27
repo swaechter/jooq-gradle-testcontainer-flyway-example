@@ -4,12 +4,12 @@ plugins {
 
 dependencies {
     // Dependencies during jOOQ compilation time during Gradle compilation phase
-    jooqGenerator("org.postgresql:postgresql:42.2.18")
+    jooqGenerator("org.postgresql:postgresql:42.2.23")
     jooqGenerator project(":generator")
 
     // Test container dependencies to start a PostgreSQL container
-    testImplementation "org.testcontainers:postgresql:1.15.1"
-    testImplementation("org.testcontainers:postgresql:1.15.1")
+    testImplementation("org.testcontainers:postgresql:1.16.0")
+    testImplementation("org.testcontainers:postgresql:1.16.0")
 }
 
 jooq {
