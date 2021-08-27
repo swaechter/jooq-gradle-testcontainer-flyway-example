@@ -26,6 +26,9 @@ public class Application {
 
         try (Connection connection = dataSource.getConnection()) {
             System.out.println("Connection established: " + connection.getClass().getSimpleName());
+
+            insertAccounts(connection);
+            listAccounts(connection);
             executeFlywayMigration(dataSource);
         } catch (Exception exception) {
             System.err.println("An error occurred: " + exception.getMessage());
@@ -49,5 +52,11 @@ public class Application {
         } catch (FlywayException exception) {
             throw new Exception("Unable to migrate schema with Flyway: " + exception.getMessage(), exception);
         }
+    }
+
+    private static void insertAccounts(Connection connection) {
+    }
+
+    private static void listAccounts(Connection connection) {
     }
 }

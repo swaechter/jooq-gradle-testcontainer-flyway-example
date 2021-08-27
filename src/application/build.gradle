@@ -1,5 +1,6 @@
 plugins {
     id "com.github.johnrengelman.shadow"
+    id "nu.studer.jooq"
 }
 
 dependencies {
@@ -7,7 +8,7 @@ dependencies {
     implementation project(":database")
 
     // Include the generator so we can compile the jOOQ classes at compile time
-
+    jooqGenerator project(":generator")
 
     // SQL driver and Flyway for data migration
     implementation("org.postgresql:postgresql:42.2.18")
@@ -23,3 +24,40 @@ shadowJar {
 
 // Make the assembly ("package") task depend on the shadow/fat JAR task so a fat JAR is generated
 assemble.dependsOn(shadowJar)
+
+jooq {
+    configurations {
+        main {
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.INFO
+                generator {
+                    database {
+                        name = "ch.swaechter.jooqexample.generator.StandalonePostgreSqlDatabase"
+                        inputSchema = "public"
+                        includes = ".*"
+                        excludes = ""
+                    }
+                    generate {
+                        records = true
+                        immutablePojos = true
+                        fluentSetters = true
+                    }
+                    target {
+                        packageName = "ch.swaechter.jooqexample.api"
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.named("generateJooq").configure {
+    // Declare the migration scripts as input for the jOOQ task (This allows proper build caching)
+    inputs.files(fileTree("src/main/resources/db/migration")).withPropertyName("migrations").withPathSensitivity(PathSensitivity.RELATIVE)
+
+    // Let the task participate in incremental builds and build caching
+    allInputsDeclared = true
+    outputs.cacheIf {
+        true
+    }
+}
