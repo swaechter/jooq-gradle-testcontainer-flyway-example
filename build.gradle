@@ -1,0 +1,25 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '6.1.0' apply false
+    id 'nu.studer.jooq' version '5.1.1' apply false
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    group 'ch.swaechter.jooq'
+    version '1.0-SNAPSHOT'
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}

@@ -1,0 +1,56 @@
+plugins {
+    id "nu.studer.jooq"
+}
+
+dependencies {
+    // Database dependencies
+    /*compile("org.jooq:jooq:3.14.4") // Expose the dependency to other projects
+    implementation("org.postgresql:postgresql:42.2.18")
+    implementation("com.zaxxer:HikariCP:3.4.5")
+    //implementation("org.flywaydb:flyway-core:7.3.1")
+
+    // Database generation dependencies
+    jooqGenerator("org.postgresql:postgresql:42.2.18")
+    jooqGenerator project(":generator")
+
+    // Test container dependencies
+    testImplementation "org.testcontainers:postgresql:1.15.1"
+    testImplementation("org.testcontainers:postgresql:1.15.1")*/
+}
+
+/*jooq {
+    configurations {
+        main {
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.INFO
+                generator {
+                    database {
+                        name = 'com.secacon.secasignbox.generator.StandalonePostgreSqlDatabase'
+                        inputSchema = 'public'
+                        includes = '.*'
+                        excludes = ''
+                    }
+                    generate {
+                        records = true
+                        immutablePojos = true
+                        fluentSetters = true
+                    }
+                    target {
+                        packageName = 'com.secacon.secasignbox.database'
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.named('generateJooq').configure {
+    // Declare the migration scripts as input for the jOOQ task (This allows proper build caching)
+    inputs.files(fileTree('src/main/resources/db/migration')).withPropertyName('migrations').withPathSensitivity(PathSensitivity.RELATIVE)
+
+    // Let the task participate in incremental builds and build caching
+    allInputsDeclared = true
+    outputs.cacheIf {
+        true
+    }
+}*/
