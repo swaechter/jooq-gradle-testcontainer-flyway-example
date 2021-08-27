@@ -1,15 +1,35 @@
 # jOOQ Gradle Example with Testcontainers and Flyway
 
-## Introduction
+## Background and the trauma of jOOQ
 
-This example project shows how someone can use a SQL schema to 
+This example project shows how you can use jOOQ in combination with Gradle. But it doesn't stop there: We all love jOOQ, but are quite annoyed by the fact, that we need an SQL server to generate type safe Java SQL DSL code. It's annoying and error-prone:
 
-## Scope of the Project
+* The end user/developer has to configure an SQL server: Which version? Which extensions? Which credentials?
+* What about conflicts with local existing SQL servers?
+* What about conflicts with a previous major version that isn't compatible anymore?
+* How to apply migration scripts and an initial test set for testing?
+* How to do the exact same thing a freaking second time for the unit/integration tests? How to rollback after a test/error?
 
-What is supported:
-* 
-What needs to be fixed:
+All in all local SQL installation don't scale [across developers/teams] and software developer should take advantage of [automated] modern containerization technique like Docker and Testcontainers:
 
-* The database project has some unnecessary jOOQ dependency that leak into the application
-* The generator doesn't log. It's hard to trace an error in this code (Gradle build failed --> Where and why?!)
-* 
+* Bootstrap an SQL Docker container on a random port with given credentials
+* Connect to this SQL server and apply the [Flyway] migration scripts
+* Run the jOOQ code generation and ensure all migrations were performed and the code generation works
+* Take the generated jOOQ DSL code and use it in the desired project
+* Stop and throw away the container
+
+
+## Solution
+
+To accomplish this, this example project was created. It consists of three modules:
+
+* Module `generator`: This module provides a custom SQL testcontainer that bootstraps an [PostgreSQL] SQL server in a Docker container, establishes a connection to it and executes the migration scripts. After the execution, the jOOQ code generation can be applied/executed and the container can be stopped and thrown away. This example provides an implementation for PostgreSQL, but it should be interchangeable with other SQL servers.
+* Module `database`: This module triggers the generator bootstrapping processed and provides the SQL migration scripts in it's ressource folder. After the jOOQ DSL is created, the database.jar file will contain the initial SQL migration scripts and the generated jOOQ DSL code. This JAR can be used by a [web] application and contains the compiled code.
+* Module `application`: Sample application that uses the generated database.jar to write and read to a database (This database has to exist locally/provided by another persistent Docker container).
+
+So all in all the `generator` code only exists at compile time to bootstrap and trigger the jOOQ code generation. The module won't be packaged into the application.jar (but of course it's compiled result database.jar will be packaged into application.jar)
+
+## Credits
+
+* Lukas Eder for creating jOOQ and entertaining on Twitter: https://twitter.com/lukaseder
+* Etienne Studer for the great Gradle plugin: https://github.com/etiennestuder/gradle-jooq-plugin
