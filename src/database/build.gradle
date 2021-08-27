@@ -3,29 +3,23 @@ plugins {
 }
 
 dependencies {
-    // Database dependencies
-    /*compile("org.jooq:jooq:3.14.4") // Expose the dependency to other projects
-    implementation("org.postgresql:postgresql:42.2.18")
-    implementation("com.zaxxer:HikariCP:3.4.5")
-    //implementation("org.flywaydb:flyway-core:7.3.1")
-
-    // Database generation dependencies
+    // Dependencies during jOOQ compilation time during Gradle compilation phase
     jooqGenerator("org.postgresql:postgresql:42.2.18")
     jooqGenerator project(":generator")
 
-    // Test container dependencies
+    // Test container dependencies to start a PostgreSQL container
     testImplementation "org.testcontainers:postgresql:1.15.1"
-    testImplementation("org.testcontainers:postgresql:1.15.1")*/
+    testImplementation("org.testcontainers:postgresql:1.15.1")
 }
 
-/*jooq {
+jooq {
     configurations {
         main {
             generationTool {
                 logging = org.jooq.meta.jaxb.Logging.INFO
                 generator {
                     database {
-                        name = "com.secacon.secasignbox.generator.StandalonePostgreSqlDatabase"
+                        name = "ch.swaechter.jooqexample.generator.StandalonePostgreSqlDatabase"
                         inputSchema = "public"
                         includes = ".*"
                         excludes = ""
@@ -36,7 +30,7 @@ dependencies {
                         fluentSetters = true
                     }
                     target {
-                        packageName = "com.secacon.secasignbox.database"
+                        packageName = "ch.swaechter.jooqexample.api"
                     }
                 }
             }
@@ -53,4 +47,4 @@ tasks.named("generateJooq").configure {
     outputs.cacheIf {
         true
     }
-}*/
+}
