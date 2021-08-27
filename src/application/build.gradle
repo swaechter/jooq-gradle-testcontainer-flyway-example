@@ -1,3 +1,7 @@
+plugins {
+    id "com.github.johnrengelman.shadow"
+}
+
 dependencies {
     // Include the SQL schemas so Flyway can migrate them
     implementation project(":database")
@@ -6,3 +10,13 @@ dependencies {
     implementation("org.postgresql:postgresql:42.2.18")
     implementation("org.flywaydb:flyway-core:7.3.1")
 }
+
+// Define a fat JAR so we can see what's inside a packaged application
+shadowJar {
+    manifest {
+        attributes "Main-Class": "ch.swaechter.jooqexample.application.Application"
+    }
+}
+
+// Make the assembly ("package") task depend on the shadow/fat JAR task so a fat JAR is generated
+assemble.dependsOn(shadowJar)
