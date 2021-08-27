@@ -18,6 +18,11 @@ All in all local SQL installation don't scale [across developers/teams] and soft
 * Take the generated jOOQ DSL code and use it in the desired project
 * Stop and throw away the container
 
+What does someone gain with this approach:
+
+* A scalable and local-configuration-independent project configuration across several developer systems (The only requirement is to have Docker installed)
+* A completely isolated and fresh build that isn't influenced/affected by the local SQL server/existing permissions/existing tables or data
+* Execution of all migration scripts (Ever had to debug migration script issues in production?). Note: Add test data for unit/integration test, otherwise this bullet point is pointless.
 
 ## Solution
 
