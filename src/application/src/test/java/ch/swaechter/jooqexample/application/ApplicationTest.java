@@ -22,7 +22,7 @@ public class ApplicationTest {
         // Create the application
         Application application = new Application();
 
-        // Create the datasource and migrate the schemas. Please create this database. Schemas will be applied
+        // Create the datasource and migrate the schemas
         DataSource dataSource = application.createDataSource("localhost", postgreSQLContainer.getFirstMappedPort(), "jooqexample", "postgres", "123456aA");
         application.executeFlywayMigration(dataSource);
 
