@@ -26,11 +26,10 @@ What does someone gain with this approach:
 
 ## Solution
 
-To accomplish this, this example project was created. It consists of three modules:
+To accomplish this, this example project was created. It consists of two modules:
 
 * Module `generator`: This module provides a custom SQL testcontainer that bootstraps an [PostgreSQL] SQL server in a Docker container, establishes a connection to it and executes the migration scripts. After the execution, the jOOQ code generation can be applied/executed and the container can be stopped and thrown away. This example provides an implementation for PostgreSQL, but it should be interchangeable with other SQL servers.
-* Module `database`: This module triggers the generator bootstrapping processed and provides the SQL migration scripts in it's ressource folder. After the jOOQ DSL is created, the database.jar file will contain the initial SQL migration scripts and the generated jOOQ DSL code. This JAR can be used by a [web] application and contains the compiled code.
-* Module `application`: Sample application that uses the generated database.jar to write and read to a database (This database has to exist locally/provided by another persistent Docker container).
+* Module `application`: The main [web] application that contains the Flyway migration scripts and that triggers the jOOQ code generation. The application writes and reads account data to a PostgreSQL database(This database has to exist locally/provided by another persistent Docker container). For the code generation, the custom `generator` is used. This generator will start a test database, apply the Flyway migration scripts and generate the DSL code that the `application` will use and package.
 
 So all in all the `generator` code only exists at compile time to bootstrap and trigger the jOOQ code generation. The module won't be packaged into the application.jar (but of course it's compiled result database.jar will be packaged into application.jar)
 

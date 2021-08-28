@@ -1,6 +1,6 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "6.1.0" apply false
     id "nu.studer.jooq" version "5.1.1" apply false
+    id "com.github.johnrengelman.shadow" version "6.1.0" apply false
 }
 
 allprojects {
