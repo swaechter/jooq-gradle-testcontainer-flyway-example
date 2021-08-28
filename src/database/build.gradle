@@ -12,6 +12,7 @@ dependencies {
     testImplementation("org.testcontainers:postgresql:1.16.0")
 }
 
+// Add the jOOQ plugin to generate the jOOQ DSL code
 jooq {
     configurations {
         main {
@@ -19,6 +20,7 @@ jooq {
                 logging = org.jooq.meta.jaxb.Logging.INFO
                 generator {
                     database {
+                        // Here use our custom database testcontainer
                         name = "ch.swaechter.jooqexample.generator.StandalonePostgreSqlDatabase"
                         inputSchema = "public"
                         includes = ".*"
@@ -38,6 +40,7 @@ jooq {
     }
 }
 
+// Make the generateJooq task dependent on the input files so we trigger a clean rebuild when the files change
 tasks.named("generateJooq").configure {
     // Declare the migration scripts as input for the jOOQ task (This allows proper build caching)
     inputs.files(fileTree("src/main/resources/db/migration")).withPropertyName("migrations").withPathSensitivity(PathSensitivity.RELATIVE)

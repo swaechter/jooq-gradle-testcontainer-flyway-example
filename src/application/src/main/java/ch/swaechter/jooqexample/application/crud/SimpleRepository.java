@@ -39,7 +39,7 @@ public abstract class SimpleRepository<DTO, Record extends UpdatableRecord<Recor
     private final Table table;
 
     /**
-     * Create a new abstract repository. Caller hat to implement the mapper methods.
+     * Create a new abstract repository. Caller has to implement the mapper methods.
      *
      * @param dslContext DSL context
      * @param table      SQL table
