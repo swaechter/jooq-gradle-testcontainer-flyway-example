@@ -51,9 +51,6 @@ public class Application {
 
             // Create the DSL context
             try (DSLContext dslContext = DSL.using(connection)) {
-                // Execute the Flyway migration
-                executeFlywayMigration(dataSource);
-
                 // Create the account repository to access the data
                 AccountRepository accountRepository = new AccountRepository(dslContext);
 
