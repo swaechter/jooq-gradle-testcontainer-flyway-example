@@ -26,6 +26,8 @@ public class StandalonePostgreSqlDatabase extends PostgresDatabase {
 
     private static final String DEFAULT_DOCKER_IMAGE = "postgres:13";
 
+    private PostgreSQLContainer<?> postgreSQLContainer;
+
     private Connection connection;
 
     @Override
@@ -33,10 +35,10 @@ public class StandalonePostgreSqlDatabase extends PostgresDatabase {
         if (connection == null) {
             try {
                 // Create the PostgreSQL container
-                final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>(DEFAULT_DOCKER_IMAGE)
-                        .withDatabaseName("database")
-                        .withUsername("username")
-                        .withPassword("password");
+                postgreSQLContainer = new PostgreSQLContainer<>(DEFAULT_DOCKER_IMAGE)
+                    .withDatabaseName("database")
+                    .withUsername("username")
+                    .withPassword("password");
 
                 // Start the PostgreSQL container
                 postgreSQLContainer.start();
@@ -53,10 +55,10 @@ public class StandalonePostgreSqlDatabase extends PostgresDatabase {
 
                 // Use the datasource of the test container to execute the Flyway migration
                 Flyway.configure().dataSource(postgreSQLContainer.getJdbcUrl(), postgreSQLContainer.getUsername(), postgreSQLContainer.getPassword())
-                        .locations(locations)
-                        .schemas("public")
-                        .load()
-                        .migrate();
+                    .locations(locations)
+                    .schemas("public")
+                    .load()
+                    .migrate();
 
                 // Set the current connection so it can be reused
                 setConnection(connection);
@@ -72,6 +74,9 @@ public class StandalonePostgreSqlDatabase extends PostgresDatabase {
         // Close the connection properly
         JDBCUtils.safeClose(connection);
         connection = null;
-        super.close();
+        super.close(); // Empty method call
+
+        // Stop the container
+        postgreSQLContainer.stop();
     }
 }
