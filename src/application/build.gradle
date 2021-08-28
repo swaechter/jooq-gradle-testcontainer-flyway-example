@@ -16,8 +16,8 @@ dependencies {
     jooqGenerator project(":generator")
 
     // Test container dependencies to start a PostgreSQL container
-//    testImplementation("org.testcontainers:postgresql:1.16.0")
-//    testImplementation("org.testcontainers:postgresql:1.16.0")
+    testImplementation("org.testcontainers:junit-jupiter:1.16.0")
+    testImplementation("org.testcontainers:postgresql:1.16.0")
 }
 
 // Add the jOOQ plugin to generate the jOOQ DSL code
