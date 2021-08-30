@@ -45,12 +45,6 @@ cd jooq-gradle-testcontainer-flyway-example
 java -jar src/application/build/libs/application-1.0-SNAPSHOT-all.jar
 ```
 
-## Problems
-
-At the moment this example has several problems:
-
-* The error handling/reporting/logging in the `StandalonePostgreSqlDatabase` is more or less non-existent. Logging needs to be synced with the Gradle plugin execution, otherwise you will errors like "An exception occurred" (Where? When? Why? Please tell me more!)
-
 ## Credits
 
 * Lukas Eder for creating jOOQ and entertaining on Twitter: https://twitter.com/lukaseder
